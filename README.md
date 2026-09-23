@@ -1,7 +1,7 @@
 # Sistema de Apoio à Monitoria
 
 ## Integrante
-- Davi Alencar
+- Davi Leite Alencar Bezerra
 
 ## Contas de teste
 - Superusuário: `admin` / `Admin@12345`
