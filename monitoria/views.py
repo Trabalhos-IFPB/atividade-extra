@@ -1,12 +1,10 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, ListView, RedirectView, UpdateView
 
@@ -108,8 +106,7 @@ class EncerrarDuvidaView(LoginRequiredMixin, View):
         return redirect('duvida-lista')
 
 
-@method_decorator(login_required, name='dispatch')
-class BaseConhecimentoView(ListView):
+class BaseConhecimentoView(LoginRequiredMixin, ListView):
     model = Duvida
     template_name = 'monitoria/base_conhecimento.html'
     context_object_name = 'duvidas'
