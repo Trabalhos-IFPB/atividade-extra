@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Responder dúvida</h2>
+<p><strong>Título:</strong> {{ object.titulo }}</p>
+<p><strong>Disciplina:</strong> {{ object.disciplina }}</p>
+<p><strong>Descrição:</strong> {{ object.descricao }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar resposta</button>
+</form>
+{% endblock %}

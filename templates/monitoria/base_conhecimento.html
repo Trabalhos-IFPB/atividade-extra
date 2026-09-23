@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Base de conhecimento</h2>
+<form method="get">
+    <label for="q">Buscar:</label>
+    <input id="q" name="q" value="{{ q }}">
+    <button type="submit">Pesquisar</button>
+</form>
+
+{% for duvida in duvidas %}
+<article>
+    <h3>{{ duvida.titulo }}</h3>
+    <p><strong>Disciplina:</strong> {{ duvida.disciplina }}</p>
+    <p><strong>Descrição:</strong> {{ duvida.descricao }}</p>
+    <p><strong>Resposta:</strong> {{ duvida.resposta }}</p>
+</article>
+<hr>
+{% empty %}
+<p>Nenhuma dúvida encontrada.</p>
+{% endfor %}
+{% endblock %}
