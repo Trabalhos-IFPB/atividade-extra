@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de dúvidas</h2>
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Disciplina</th>
+            <th>Autor</th>
+            <th>Monitor</th>
+            <th>Situação</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for duvida in duvidas %}
+        <tr>
+            <td>{{ duvida.titulo }}</td>
+            <td>{{ duvida.disciplina }}</td>
+            <td>{{ duvida.autor.username }}</td>
+            <td>{% if duvida.monitor_responsavel %}{{ duvida.monitor_responsavel.username }}{% else %}-{% endif %}</td>
+            <td>{{ duvida.get_situacao_display }}</td>
+            <td>
+                {% if duvida.situacao == 'ABERTA' and user in duvida.disciplina.monitores.all %}
+                    <form method="post" action="{% url 'duvida-assumir' duvida.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Assumir</button>
+                    </form>
+                {% endif %}
+                {% if duvida.situacao == 'EM_ATENDIMENTO' and duvida.monitor_responsavel_id == user.id %}
+                    <a href="{% url 'duvida-responder' duvida.pk %}">Responder</a>
+                {% endif %}
+                {% if duvida.situacao == 'RESPONDIDA' and duvida.autor_id == user.id and duvida.resposta %}
+                    <form method="post" action="{% url 'duvida-encerrar' duvida.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Encerrar</button>
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="6">Nenhuma dúvida encontrada.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

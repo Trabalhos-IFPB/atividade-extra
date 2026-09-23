@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Apoio à Monitoria</title>
+</head>
+<body>
+    <header>
+        <h1>Sistema de Apoio à Monitoria</h1>
+        {% if user.is_authenticated %}
+            <p>Olá, {{ user.username }}</p>
+            <nav>
+                <a href="{% url 'duvida-lista' %}">Minhas dúvidas</a> |
+                <a href="{% url 'duvida-criar' %}">Abrir dúvida</a> |
+                <a href="{% url 'base-conhecimento' %}">Base de conhecimento</a> |
+                <a href="/admin/">Admin</a> |
+                <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+            </nav>
+        {% else %}
+            <nav>
+                <a href="{% url 'login' %}">Entrar</a> |
+                <a href="{% url 'signup' %}">Cadastrar</a>
+            </nav>
+        {% endif %}
+    </header>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
